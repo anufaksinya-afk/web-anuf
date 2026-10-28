@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ануфриева Аксинья - ИС32 | Расписание</title>
+    <style>
+        /* Базовые настройки */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        /* Заголовок */
+        h1 {
+            color: #fff;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Контейнер для таблицы */
+        .table-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow-x: auto;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Стили таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        /* Заголовки (дни недели) */
+        th {
+            background-color: #4a90e2;
+            color: white;
+            padding: 15px 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #357abd;
+        }
+
+        /* Первый столбец (время) */
+        td:first-child, th:first-child {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #555;
+            border-right: 2px solid #eaeaea;
+            white-space: nowrap;
+        }
+
+        /* Ячейки с данными */
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eaeaea;
+            border-right: 1px solid #f1f1f1;
+            transition: all 0.3s ease;
+            color: #444;
+            vertical-align: top;
+            min-width: 130px;
+            height: 70px;
+        }
+
+        /* Убираем правую границу у последнего столбца */
+        td:last-child {
+            border-right: none;
+        }
+
+        /* Чередование строк для читаемости */
+        tbody tr:nth-child(even) td:not(:first-child) {
+            background-color: #fafbfc;
+        }
+
+        /* Эффект при наведении на строку */
+        tbody tr:hover td {
+            background-color: #eaf3ff !important;
+        }
+
+        /* Выделение выходных (суббота и воскресенье) */
+        td:nth-last-child(1), th:nth-last-child(1),
+        td:nth-last-child(2), th:nth-last-child(2) {
+            background-color: #fff4e6 !important;
+        }
+        
+        th:nth-last-child(1), th:nth-last-child(2) {
+            background-color: #e67e22 !important;
+            border-bottom: 2px solid #d35400;
+        }
+
+        /* Оформление самих предметов */
+        .subject {
+            font-weight: 600;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+
+        .type {
+            font-size: 0.75rem;
+            color: #7f8c8d;
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .type.practice { color: #27ae60; }
+        .type.lab { color: #8e44ad; }
+        .type.lecture { color: #2980b9; }
+        .type.exam { color: #c0392b; font-weight: bold; }
+
+        .room {
+            font-size: 0.8rem;
+            color: #95a5a6;
+            display: block;
+            font-style: italic;
+        }
+
+        /* Пустая ячейка (окно) */
+        .empty {
+            color: #d1d8e0;
+            font-style: italic;
+        }
+
+        /* Убираем нижнюю границу у последней строки */
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 900px) {
+            h1 { font-size: 1.6rem; }
+            .subtitle { font-size: 0.95rem; }
+            th, td { padding: 10px 6px; font-size: 0.8rem; }
+            td { min-width: 110px; height: auto; }
+            .subject { font-size: 0.8rem; }
+            .type { font-size: 0.65rem; }
+            .room { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <h1>📅 Расписание занятий</h1>
+    <p class="subtitle">Ануфриева Аксинья &mdash; Группа ИС32</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Понедельник</th>
+                    <th>Вторник</th>
+                    <th>Среда</th>
+                    <th>Четверг</th>
+                    <th>Пятница</th>
+                    <th>Суббота</th>
+                    <th>Воскресенье</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Пара 1 -->
+                <tr>
+                    <td>9:00 – 10:20</td>
+                    <td>
+                        <span class="subject">Основы алгоритмизации</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 301</span>
+                    </td>
+                    <td>
+                        <span class="subject">Веб-разработка</span>
+                        <span class="type lab">Лабораторная</span>
+                        <span class="room">ауд. 412</span>
+                    </td>
+                    <td>
+                        <span class="subject">Базы данных</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 205</span>
+                    </td>
+                    <td>
+                        <span class="subject">Английский язык</span>
+                        <span class="type practice">Практика</span>
+                        <span class="room">ауд. 118</span>
+                    </td>
+                    <td>
+                        <span class="subject">Физика</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 102</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                </tr>
+                <!-- Пара 2 -->
+                <tr>
+                    <td>10:35 – 11:55</td>
+                    <td>
+                        <span class="subject">Математический анализ</span>
+                        <span class="type practice">Практика</span>
+                        <span class="room">ауд. 210</span>
+                    </td>
+                    <td>
+                        <span class="subject">Веб-разработка</span>
+                        <span class="type lab">Лабораторная</span>
+                        <span class="room">ауд. 412</span>
+                    </td>
+                    <td>
+                        <span class="subject">Базы данных</span>
+                        <span class="type lab">Лабораторная</span>
+                        <span class="room">ауд. 208</span>
+                    </td>
+                    <td>
+                        <span class="subject">История</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 305</span>
+                    </td>
+                    <td>
+                        <span class="subject">Физика</span>
+                        <span class="type lab">Лабораторная</span>
+                        <span class="room">ауд. 115</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                </tr>
+                <!-- Пара 3 -->
+                <tr>
+                    <td>12:55 – 14:15</td>
+                    <td>
+                        <span class="subject">Физическая культура</span>
+                        <span class="type practice">Практика</span>
+                        <span class="room">Спортзал</span>
+                    </td>
+                    <td>
+                        <span class="subject">ООП</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 401</span>
+                    </td>
+                    <td>
+                        <span class="subject">Дискретная математика</span>
+                        <span class="type practice">Практика</span>
+                        <span class="room">ауд. 307</span>
+                    </td>
+                    <td>
+                        <span class="subject">ООП</span>
+                        <span class="type lab">Лабораторная</span>
+                        <span class="room">ауд. 403</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                </tr>
+                <!-- Пара 4 -->
+                <tr>
+                    <td>14:30 – 15:50</td>
+                    <td class="empty">—</td>
+                    <td>
+                        <span class="subject">Дискретная математика</span>
+                        <span class="type lecture">Лекция</span>
+                        <span class="room">ауд. 307</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td>
+                        <span class="subject">Физика</span>
+                        <span class="type practice">Практика</span>
+                        <span class="room">ауд. 110</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                </tr>
+                <!-- Пара 5 -->
+                <tr>
+                    <td>16:00 – 17:20</td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                    <td>
+                        <span class="subject">Курсовая работа</span>
+                        <span class="type practice">Консультация</span>
+                        <span class="room">ауд. 405</span>
+                    </td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                    <td class="empty">—</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
